@@ -1,7 +1,8 @@
-import { Suspense, useState } from 'react';
-import DataFetching from './components/DataFetching/DataFetching';
-import Skeleton from './components/Skeleton/Skeleton';
 import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import DataFetchingComponent from './components/DataFetchingComponent/DataFetchingComponent';
+import ErrorBoundaryWrapper from './components/ErrorBoundaryWrapper/ErrorBoundaryWrapper';
+import SuspenseWrapper from './components/SuspenseWrapper/SuspenseWrapper';
 
 function App() {
   const queryClient = useQueryClient();
@@ -18,9 +19,11 @@ function App() {
         <button onClick={handleClick}>Invalidate queries: {count}</button>
       </div>
       <div className="p-2 border-2">
-        <Suspense fallback={<Skeleton />}>
-          <DataFetching />
-        </Suspense>
+        <ErrorBoundaryWrapper>
+          <SuspenseWrapper>
+            <DataFetchingComponent />
+          </SuspenseWrapper>
+        </ErrorBoundaryWrapper>
       </div>
     </div>
   );
